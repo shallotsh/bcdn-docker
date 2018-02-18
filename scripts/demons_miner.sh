@@ -2,10 +2,10 @@
 
 function start()
 {
-	cd /bcdn
+	cd /bcdn_root
 	if [ $CODE ]; then
 		echo "write miner code: "$CODE
-		echo $CODE > /bcdn/conf/code.txt
+		echo $CODE > /bcdn_root/conf/code.txt
 	fi
 
 	nohup ./miner_guarder.sh &

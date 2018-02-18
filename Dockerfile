@@ -33,12 +33,12 @@ RUN /M_BerryMiner_Ubuntu/protobuf-master/autogen.sh && \
 	make && make install
  
 WORKDIR /M_BerryMiner_Ubuntu
-RUN mv /M_BerryMiner_Ubuntu/M_BerryMiner_ubuntu_v1_0/server /bcdn
-COPY scripts/ /bcdn/
-WORKDIR /bcdn
+RUN mv /M_BerryMiner_Ubuntu/M_BerryMiner_ubuntu_v1_0/server /bcdn_root
+COPY scripts/ /bcdn_root/
+WORKDIR /bcdn_root
 RUN chmod 755 *.sh && \
-	chmod 755 /bcdn/bcdn && \
-	chmod 755 /bcdn/bin/bcdn_server
+	chmod 755 /bcdn_root/bcdn && \
+	chmod 755 /bcdn_root/bin/bcdn_server
 
-CMD "/bcdn/miner_guarder.sh"
+#CMD "/bcdn/miner_guarder.sh"
 
