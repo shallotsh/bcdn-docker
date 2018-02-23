@@ -1,7 +1,7 @@
 #!/bin/bash
 
 yestoday=`date -d "-1 day" "+%Y%m%d"`
-sleep_seconds=60
+sleep_seconds=30
 function check_and_boot()
 {
 	cd /bcdn_root
@@ -15,11 +15,11 @@ function check_and_boot()
 			echo "Try to stop orignal bcdn_server: "$pid
 			kill -9 ${pid}
 		fi
-                ./bcdn 
+                nohup ./bcdn &
 		if [ $? -ne 0 ];then
-			sleep_seconds=20
+			sleep_seconds=15
 		else
-			sleep_seconds=60
+			sleep_seconds=30
 		fi
         fi
 	# check date and split the log
