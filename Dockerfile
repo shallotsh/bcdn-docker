@@ -2,43 +2,35 @@ FROM ubuntu:latest
 
 MAINTAINER Gary Shallotsh "shallotsh@gmail.com"
 
-RUN apt-get update && apt-get install -y zip
+RUN apt-get update && apt-get install -y zip wget golang
 
-ADD M_BerryMiner_Ubuntu.zip /
+WORKDIR /root
+#RUN wget wget https://storage.googleapis.com/golang/go1.9.1.linux-amd64.tar.gz
 
-RUN unzip M_BerryMiner_Ubuntu.zip
-WORKDIR /M_BerryMiner_Ubuntu
-
-RUN tar -C /usr/local -zxvf go1.9.1.linux-amd64.tar.gz && \
-	mkdir -p /root/go/src && \
-	echo "export GOPATH=$HOME/go" >> /root/.bashrc && \
-	echo "export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin" >> /root/.bashrc 
+#RUN tar -C /usr/local -zxvf go1.9.1.linux-amd64.tar.gz && \
+	#rm go1.9.1.linux-amd64.tar.gz && \
+	#mkdir -p /root/go/src && \
+	#echo "export GOPATH=$HOME/go" >> /root/.bashrc && \
+	#echo "export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin" >> /root/.bashrc 
 
 RUN apt-get install -y g++ autoconf automake libtool curl make && \
-	apt-get install -y libssl-dev
+	apt-get install -y libssl-dev libevent-dev
 
-WORKDIR /M_BerryMiner_Ubuntu
-RUN unzip Libevent-release-2.1.8-stable.zip
-WORKDIR /M_BerryMiner_Ubuntu/Libevent-release-2.1.8-stable
+WORKDIR /root
 
-RUN /M_BerryMiner_Ubuntu/Libevent-release-2.1.8-stable/autogen.sh && \
-	/M_BerryMiner_Ubuntu/Libevent-release-2.1.8-stable/configure --prefix=/usr && \
- make && make install
-
-WORKDIR /M_BerryMiner_Ubuntu
-RUN unzip protobuf-master.zip
-WORKDIR /M_BerryMiner_Ubuntu/protobuf-master
-RUN /M_BerryMiner_Ubuntu/protobuf-master/autogen.sh && \
-	/M_BerryMiner_Ubuntu/protobuf-master/configure && \
+RUN wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
+RUN tar -zxvf protobuf-2.6.1.tar.gz && \
+	rm protobuf-2.6.1.tar.gz
+WORKDIR protobuf-2.6.1/
+RUN ./autogen.sh && \
+	./configure && \
 	make && make install
  
-WORKDIR /M_BerryMiner_Ubuntu
-RUN mv /M_BerryMiner_Ubuntu/M_BerryMiner_ubuntu_v1_0/server /bcdn_root
-COPY scripts/ /bcdn_root/
-WORKDIR /bcdn_root
-RUN chmod 755 *.sh && \
-	chmod 755 /bcdn_root/bcdn && \
-	chmod 755 /bcdn_root/bin/bcdn_server
-
+WORKDIR /root
+RUN wget https://dl.mybcdn.com//dev//2018-02-23-v0.0.94-61.tar.gz
+RUN tar -zxvf 2018-02-23-v0.0.94-61.tar.gz && \
+	rm 2018-02-23-v0.0.94-61.tar.gz
+COPY scripts/ /root/script/
+RUN chmod 755 /root/script/miner_boot.sh
 #CMD "/bcdn/miner_guarder.sh"
 
