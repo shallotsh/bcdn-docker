@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build -t shallotsh/bcdn:v3.1 . 
+sudo docker build -t shallotsh/bcdn:v3.2 . 

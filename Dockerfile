@@ -27,10 +27,11 @@ RUN ./autogen.sh && \
 	make && make install
  
 WORKDIR /root
-RUN wget https://dl.mybcdn.com//dev//2018-02-23-v0.0.94-61.tar.gz
-RUN tar -zxvf 2018-02-23-v0.0.94-61.tar.gz && \
-	rm 2018-02-23-v0.0.94-61.tar.gz
-COPY scripts/ /root/script/
-RUN chmod 755 /root/script/miner_boot.sh
+RUN wget http://update.blockcdn.org/install_bcdn.sh && \
+	chmod 755 install_bcdn.sh && \
+	./install_bcdn.sh
+WORKDIR /root/M_BerryMiner_Ubuntu_v4
+COPY scripts/ /root/M_BerryMiner_Ubuntu_v4/script/
+RUN chmod 755 /root/M_BerryMiner_Ubuntu_v4/script/miner_boot.sh
 #CMD "/bcdn/miner_guarder.sh"
 
